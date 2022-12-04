@@ -1,7 +1,7 @@
 import kaboom from 'kaboom';
 
 
-const { add, pos, sprite, area } = kaboom({
+kaboom({
     fullscreen: true,
     clearColor: [0, 0, 0, 1]
 });
@@ -43,8 +43,38 @@ loadSprite("warrior", "assets/warrior.png", {
       "speed": 10,
       "loop": true
     },
+    dead: {
+      from: 8,
+      to: 13,
+      "speed": 3,
+    },
   },
 })
+
+loadSprite("rat", "assets/rat.png", {
+  sliceX: 16,
+  sliceY: 2,
+  anims: {
+    idle: {
+      from: 0,
+      to: 1,
+      speed: 1,
+      loop: true,
+    },
+    run: {
+      from: 2,
+      to: 7,
+      "speed": 10,
+      "loop": true
+    },
+    dead: {
+      from: 12,
+      to: 14,
+      "speed": 3,
+    }
+  },
+})
+
 
 // Characters
 
@@ -53,31 +83,63 @@ const player = add([
   area(),
   scale(2),
   sprite("warrior", {anim: "idle"}),
-  health(10)
+  health(10),
 ])
 
 const rat =  add([
-  pos(200, 150),
-  area(),
-  scale(2),
-  sprite("rat", {anim: "idle"}),
-  health(10)
+    pos(getRandomPosition()),
+    area(),
+    solid(),
+    scale(2),
+    sprite("rat", {anim: "idle"}),
+    "enemy"
 ])
 
+// Camera following player
+/*player.onUpdate(() => {
+  camPos(player.pos)
+})*/
+
+// GetRandom
+
+function getRandomPosition(tileW = 16, tileH = 16) {
+
+  const tx = Math.floor(width() / tileW)
+  const ty = Math.floor(height() / tileH)
+
+  const x = (Math.floor(rand(0, tx)) * tileW) + (tileW * 0.5)
+  const y = (Math.floor(rand(0, ty)) * tileH) + (tileH * 0.5)
+
+  return vec2(x, y)
+}
+
+// Spawn
+
+function spawn(number, enemy) {
+  for ( let i = 0; i < number; i++ ) {
+    return  enemy * number
+  }
+}
+
+spawn(6, rat)
+
+
+
 //Fight
+//Need debuging
+
 player.onCollide("enemy", (enemy) => {
-  player.hurt(1)
-  enemy.hurt(1)
+  player.hurt(15)
+})
+
+player.onDeath(() => {
+  player.play("dead")
+  wait(1, () => {
+    destroy(player)
+  })
 })
 
 // Movement
-
-const dirs = {
-  "left": LEFT,
-  "right": RIGHT,
-  "up": UP,
-  "down": DOWN,
-}
 
 onKeyDown("up", () => {
   player.move(0, -120)
@@ -89,10 +151,12 @@ onKeyDown("down", () => {
 
 onKeyDown("left", () => {
   player.move(-120, 0)
+  player.flipX(true)
 })
 
 onKeyDown("right", () => {
   player.move(120, 0)
+  player.flipX(false)
 })
 
 onKeyPress(["left", "right", "up", "down"], () => {
