@@ -44,9 +44,9 @@ loadSprite("rat", "assets/rat.png", {
       loop: true,
     },
     run: {
-      from: 2,
-      to: 7,
-      "speed": 10,
+      from: 6,
+      to: 10,
+      "speed": 8,
       "loop": true
     },
     dead: {
@@ -65,7 +65,8 @@ const player = add([
   area(),
   scale(2),
   sprite("warrior", {anim: "idle"}),
-  health(10),
+  health(3),
+  origin("center"),
 ])
 
 const rat =  add([
@@ -73,8 +74,9 @@ const rat =  add([
     area(),
     solid(),
     scale(2),
-    sprite("rat", {anim: "idle"}),
+    sprite("rat", {anim: "run"}),
     state('move'),
+    origin("center"),
     "enemy"
 ])
 
@@ -109,7 +111,8 @@ spawn(6, rat)
 //Need debuging
 
 player.onCollide("enemy", (enemy) => {
-  player.hurt(15)
+  player.hurt(1)
+  rat.enterState("idle")
 })
 
 player.onDeath(() => {
@@ -153,11 +156,22 @@ player.onDeath(() => {
   })
 
 //Rat AI
-rat.onStateUpdate("move", () => {
-  if (!player.exists()) return
-  const dir = player.pos.sub(rat.pos).unit()
-  rat.move(dir.scale(180))
+rat.onStateEnter("idle", async () => {
+  await wait(0.5)
+  rat.enterState("move")
 })
 
-// Have to manually call enterState() to trigger the onStateEnter("move") event we defined above.
+rat.onStateUpdate("move", () => {
+  if (!player.exists()) {
+    return rat.play("idle")
+  }
+  const dir = player.pos.sub(rat.pos).unit()
+  rat.move(dir.scale(180))
+  if(dir.x>0){
+    rat.flipX(false)
+  } else {
+    rat.flipX(true)
+  }
+})
+
 rat.enterState("move")
