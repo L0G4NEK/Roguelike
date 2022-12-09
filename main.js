@@ -57,6 +57,30 @@ loadSprite("rat", "assets/rat.png", {
   },
 })
 
+loadSprite("shaman", "assets/shaman.png", {
+  sliceX: 16,
+  sliceY: 1,
+  anims: {
+    idle: {
+      from: 0,
+      to: 1,
+      speed: 1,
+      loop: true,
+    },
+    run: {
+      from: 6,
+      to: 10,
+      "speed": 8,
+      "loop": true
+    },
+    dead: {
+      from: 12,
+      to: 14,
+      "speed": 10,
+    }
+  },
+})
+
 
 // Characters
 
@@ -67,6 +91,9 @@ const player = add([
   sprite("warrior", {anim: "idle"}),
   health(3),
   origin("center"),
+  {
+    dead: false,
+  }
 ])
 
 const rat =  add([
@@ -117,31 +144,43 @@ player.onCollide("enemy", (enemy) => {
 
 player.onDeath(() => {
   player.play('dead')
+  player.dead = true
   wait(1, () => destroy(player))
+  console.log(player.dead)
 })
 
 // Movement
 
   onKeyDown("up", () => {
-    player.move(0, -120)
+    if (!player.dead){
+      player.move(0, -120)
+    }
   })
 
   onKeyDown("down", () => {
-    player.move(0, 120)
+    if (!player.dead) {
+      player.move(0, 120)
+    }
   })
 
   onKeyDown("left", () => {
-    player.move(-120, 0)
-    player.flipX(true)
+    if (!player.dead) {
+      player.move(-120, 0)
+      player.flipX(true)
+    }
   })
 
   onKeyDown("right", () => {
-    player.move(120, 0)
-    player.flipX(false)
+    if (!player.dead) {
+      player.move(120, 0)
+      player.flipX(false)
+    }
   })
 
   onKeyPress(["left", "right", "up", "down"], () => {
-    player.play("run")
+    if (!player.dead) {
+      player.play("run")
+    }
   })
 
   onKeyRelease(["left", "right", "up", "down"], () => {
@@ -155,7 +194,11 @@ player.onDeath(() => {
     }
   })
 
+onKeyPress(["space"], () => {
+})
+
 //Rat AI
+/*
 rat.onStateEnter("idle", async () => {
   await wait(0.5)
   rat.enterState("move")
@@ -174,4 +217,4 @@ rat.onStateUpdate("move", () => {
   }
 })
 
-rat.enterState("move")
+rat.enterState("move")*/
