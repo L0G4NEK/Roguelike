@@ -125,15 +125,6 @@ function getRandomPosition(tileW = 16, tileH = 16) {
   return vec2(x, y)
 }
 
-// Spawn
-
-function spawn(number, enemy) {
-}
-
-spawn(6, rat)
-
-
-
 //Fight
 //Need debuging
 
@@ -189,6 +180,7 @@ player.onDeath(() => {
         && !isKeyDown("right")
         && !isKeyDown("up")
         && !isKeyDown("down")
+        && !player.dead
     ) {
       player.play("idle")
     }
