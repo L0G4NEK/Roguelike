@@ -5,6 +5,7 @@ const photoField = document.getElementById('photo');
 const labels = document.getElementsByTagName('label');
 const signUp = document.getElementById('signUp');
 const failureModal = document.querySelector('.failure');
+let state = 0;
 
 const auth = firebase.auth();
 //auth.languageCode = 'fr_FR'; //Sending verification emails only in french
@@ -23,6 +24,7 @@ const signUpFunction = () => {
     auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
         console.log('Signed Up Successfully !');
+        state = 1;
         sendVerificationEmail();
     })
     .catch(error => {
@@ -41,7 +43,7 @@ const sendVerificationEmail = () => {
     auth.currentUser.sendEmailVerification()
     .then(() => {
         console.log('Verification Email Sent Successfully !');
-        window.location.assign('../../index');
+        window.location.assign('../mainpage');
     })
     .catch(error => {
         console.error(error);
@@ -49,6 +51,12 @@ const sendVerificationEmail = () => {
 }
 
 signUp.addEventListener('click', signUpFunction);
+
+auth.onAuthStateChanged(user => {
+    if(user && (state === 1)) {
+        window.location.assign('../mainpage');
+    }
+})
 
 document.getElementById('userInfo').addEventListener('click', () => {
     console.log(auth.currentUser)

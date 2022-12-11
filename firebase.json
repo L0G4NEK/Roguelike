@@ -9,11 +9,18 @@
     "redirects": [
       {
         "source": "/signup",
-        "destination": "./signup.html"
+        "destination": "./signup.html",
+        "type": 301
       },
       {
         "source": "/index",
-        "destination": "../index.html"
+        "destination": "./index.html",
+        "type":  301
+      },
+      {
+        "source": "/mainpage",
+        "destination": "./mainpage.html",
+        "type":  301
       }
 
     ]

@@ -3,21 +3,14 @@ const shownMailContainer = 'container mail-container shown-container';
 const hiddenMailContainer = 'container mail-container hidden-container';
 const socialMediaContainer = document.querySelector('.socialMedia-container');
 const shownSocialMediaContainer = 'container socialMedia-container shown-container';
-const hiddenSocialMediaContainer = 'container socialMedia-container hidden-container';
-const phoneContainer = document.querySelector('.phone-container');
-const shownPhoneContainer = 'container phone-container shown-container';
 const hiddenPhoneContainer = 'container phone-container hidden-container';
 const authenticationMethod1 = document.getElementById('method1');
 const authenticationMethod2 = document.getElementById('method2');
 const mailField = document.getElementById('mail');
 const passwordField = document.getElementById('password');
-const phoneNumberField = document.getElementById('phoneNumber');
-const codeField = document.getElementById('code');
 const labels = document.getElementsByTagName('label');
 const signInWithMail = document.getElementById('signInWithMail');
-const signInWithPhone = document.getElementById('signInWithPhone');
 const signUp = document.getElementById('signUp');
-const failureModal = document.querySelector('.failure');
 const signInWithGoogleButton = document.getElementById('signInWithGoogle')
 
 //Necessary part for the firebase built in functions
@@ -32,7 +25,7 @@ const signInWithGoogle = () => {
 
   auth.signInWithPopup(googleProvider)
   .then(() => {
-    window.location.assign('../index');
+    window.location.assign('./mainpage');
   })
   .catch(error => {
     console.error(error);
@@ -51,7 +44,7 @@ const signInWithEmailFunction = () => {
   auth.signInWithEmailAndPassword(email, password)
   .then(() => {
     //Signed in successfully
-    window.location.assign('../index')
+    window.location.assign('./mainpage')
   })
   .catch(error => {
     //Something went wrong
@@ -69,6 +62,12 @@ signUp.addEventListener('click', () => {
   window.location.assign('./signup');
 });
 
+auth.onAuthStateChanged(user => {
+  if(user) {
+    window.location.assign('./mainpage');
+  }
+})
+
 //Animations
 const initializeInputAnimationState = (fieldName, labelNumber) => {
   if(fieldName.value)
@@ -80,7 +79,6 @@ const initializeInputAnimationState = (fieldName, labelNumber) => {
 authenticationMethod1.addEventListener('change', () => {
   mailContainer.className = shownMailContainer
   socialMediaContainer.className = hiddenPhoneContainer
-  phoneContainer.className = hiddenSocialMediaContainer
   initializeInputAnimationState(mailField, 0);
   initializeInputAnimationState(passwordField, 1);
 });
@@ -88,15 +86,6 @@ authenticationMethod1.addEventListener('change', () => {
 authenticationMethod2.addEventListener('change', () => {
   mailContainer.className = hiddenMailContainer
   socialMediaContainer.className = shownSocialMediaContainer
-  phoneContainer.className = hiddenSocialMediaContainer
-});
-
-authenticationMethod3.addEventListener('change', () => {
-  mailContainer.className = hiddenMailContainer
-  socialMediaContainer.className = hiddenPhoneContainer
-  phoneContainer.className = shownPhoneContainer
-  initializeInputAnimationState(phoneNumberField, 2);
-  initializeInputAnimationState(codeField, 3);
 });
 
 mailField.addEventListener('focus', () => {
@@ -118,23 +107,3 @@ passwordField.addEventListener('blur', () => {
   if(!passwordField.value)
     labels.item(1).className = "unfocused-field"
 });
-
-phoneNumberField.addEventListener('focus', () => {
-  if(!phoneNumberField.value)
-    labels.item(2).className = "focused-field"
-})
-
-codeField.addEventListener('focus', () => {
-  if(!codeField.value)
-    labels.item(3).className = "focused-field"
-})
-
-phoneNumberField.addEventListener('blur', () => {
-  if(!phoneNumberField.value)
-  labels.item(2).className = "unfocused-field"
-})
-
-codeField.addEventListener('blur', () => {
-  if(!codeField.value)
-  labels.item(3).className = "unfocused-field"
-})
