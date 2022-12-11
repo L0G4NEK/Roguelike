@@ -12,6 +12,20 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
+    "firebase": "^9.15.0",
     "kaboom": "^2000.2.10"
-  }
+  },
+  "main": "playground.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L0G4NEK/Roguelike.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/L0G4NEK/Roguelike/issues"
+  },
+  "homepage": "https://github.com/L0G4NEK/Roguelike#readme",
+  "description": ""
 }

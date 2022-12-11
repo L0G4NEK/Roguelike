@@ -9,7 +9,7 @@ kaboom({
 // Sprites
 
 
-loadSprite("warrior", "assets/warrior.png", {
+loadSprite("warrior", "src/assets/warrior.png", {
   sliceX: 21,
   sliceY: 8.5,
   anims: {
@@ -33,7 +33,7 @@ loadSprite("warrior", "assets/warrior.png", {
   },
 })
 
-loadSprite("rat", "assets/rat.png", {
+loadSprite("rat", "src/assets/rat.png", {
   sliceX: 16,
   sliceY: 2,
   anims: {
@@ -57,7 +57,7 @@ loadSprite("rat", "assets/rat.png", {
   },
 })
 
-loadSprite("shaman", "assets/shaman.png", {
+loadSprite("shaman", "src/assets/shaman.png", {
   sliceX: 16,
   sliceY: 1,
   anims: {
@@ -130,7 +130,7 @@ function getRandomPosition(tileW = 16, tileH = 16) {
 
 player.onCollide("enemy", (enemy) => {
   player.hurt(1)
-  rat.enterState("idle")
+  enemy.enterState("idle")
 })
 
 player.onDeath(() => {
