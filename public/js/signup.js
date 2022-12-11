@@ -53,7 +53,7 @@ const sendVerificationEmail = () => {
 signUp.addEventListener('click', signUpFunction);
 
 auth.onAuthStateChanged(user => {
-    if(user && (state === 1)) {
+    if(user && (state === 0)) {
         window.location.assign('../mainpage');
     }
 })
