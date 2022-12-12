@@ -2,8 +2,12 @@ import kaboom from 'kaboom';
 
 
 kaboom({
-    fullscreen: true,
-    clearColor: [0, 0, 0, 1]
+  global: true,
+  height:370,
+  width:720,
+  scale: 2,
+  debug: true,
+  clearColor: [0, 0, 1, 1]
 });
 
 // Sprites
@@ -81,69 +85,120 @@ loadSprite("shaman", "src/assets/shaman.png", {
   },
 })
 
+loadSprite('wall', 'src/assets/wall.png')
+loadSprite('floor', 'src/assets/floor.png')
+loadSprite('bg', 'src/assets/bg.png')
 
-// Characters
+//Add level
+scene('game', ({ level, score }) => {
+  layers(['bg', 'obj', 'ui'], 'obj')
 
-const player = add([
-  pos(200, 150),
-  area(),
-  scale(2),
-  sprite("warrior", {anim: "idle"}),
-  health(3),
-  origin("center"),
-  {
-    dead: false,
+  const maps = [[
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xS                                         Sx",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                  R                     x x",
+    "x x                                       x x",
+    "x x                              R         x x",
+    "x x            R                           x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                         R              x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x x                                       x x",
+    "x xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx x",
+    "x                                           x",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  ]]
+  const levelCfg = {
+    width: 16,
+    height: 16,
+    "x": () => [
+      sprite("wall"),
+      area(),
+      solid(),
+    ],
+    "R": () => [
+      area(),
+      solid(),
+      sprite("rat", {anim: "run"}),
+      state('move'),
+      "enemy",
+      'rat'
+    ],
   }
-])
+  add([sprite('bg'), layer('bg')])
 
-const rat =  add([
-    pos(getRandomPosition()),
+  addLevel(maps[0], levelCfg)
+
+
+  // Characters
+
+  const player = add([
+    pos(width() / 2, height() - 32),
     area(),
     solid(),
-    scale(2),
+    sprite("warrior", {anim: "idle"}),
+    health(3),
+    {
+      dead: false,
+    }
+  ])
+
+  const rat = add([
+    pos(200, 150),
+    area(),
+    solid(),
     sprite("rat", {anim: "run"}),
     state('move'),
-    origin("center"),
     "enemy"
-])
+  ])
 
-// Camera following player
-/*player.onUpdate(() => {
-  camPos(player.pos)
-})*/
+  // Camera following player
+  /*player.onUpdate(() => {
+    camPos(player.pos)
+  })*/
 
-// GetRandom
+  // GetRandom
 
-function getRandomPosition(tileW = 16, tileH = 16) {
+  function getRandomPosition(tileW = 16, tileH = 16) {
 
-  const tx = Math.floor(width() / tileW)
-  const ty = Math.floor(height() / tileH)
+    const tx = Math.floor(width() / tileW)
+    const ty = Math.floor(height() / tileH)
 
-  const x = (Math.floor(rand(0, tx)) * tileW) + (tileW * 0.5)
-  const y = (Math.floor(rand(0, ty)) * tileH) + (tileH * 0.5)
+    const x = (Math.floor(rand(0, tx)) * tileW) + (tileW * 0.5)
+    const y = (Math.floor(rand(0, ty)) * tileH) + (tileH * 0.5)
 
-  return vec2(x, y)
-}
+    return vec2(x, y)
+  }
 
-//Fight
-//Need debuging
+  //Fight
+  //Need debuging
 
-player.onCollide("enemy", (enemy) => {
-  player.hurt(1)
-  enemy.enterState("idle")
-})
+  player.onCollide("enemy", (enemy) => {
+    player.hurt(1)
+    enemy.enterState("idle")
+  })
 
-player.onDeath(() => {
-  player.play('dead')
-  player.dead = true
-  wait(1, () => destroy(player))
-  console.log(player.dead)
-})
+  player.onDeath(() => {
+    player.play('dead')
+    player.dead = true
+    wait(1, () => destroy(player))
+    go("gameover");
+  })
 
-// Movement
+  // Movement
 
   onKeyDown("up", () => {
-    if (!player.dead){
+    if (!player.dead) {
       player.move(0, -120)
     }
   })
@@ -186,27 +241,63 @@ player.onDeath(() => {
     }
   })
 
-onKeyPress(["space"], () => {
-})
+  onKeyPress(["space"], () => {
+  })
 
-//Rat AI
-/*
-rat.onStateEnter("idle", async () => {
-  await wait(0.5)
+  //Rat AI
+  rat.onStateEnter("idle", async () => {
+    await wait(0.5)
+    rat.enterState("move")
+  })
+  rat.onStateUpdate("move", () => {
+    if (!player.exists()) {
+      return rat.play("idle")
+    }
+    const dir = player.pos.sub(rat.pos).unit()
+    rat.move(dir.scale(50))
+    if (dir.x > 0) {
+      rat.flipX(false)
+    } else {
+      rat.flipX(true)
+    }
+  })
   rat.enterState("move")
+
+  onUpdate('rat', (rat) => {
+    rat.onStateEnter("idle", async () => {
+      await wait(0.5)
+      rat.enterState("move")
+    })
+  })
+
+  onUpdate('rat', (rat) => {
+    rat.onStateUpdate("move", () => {
+      if (!player.exists()) {
+        return rat.play("idle")
+      }
+      const dir = player.pos.sub(rat.pos).unit()
+      rat.move(dir.scale(1))
+      if (dir.x > 0) {
+        rat.flipX(false)
+      } else {
+        rat.flipX(true)
+      }
+    })
+  })
 })
 
-rat.onStateUpdate("move", () => {
-  if (!player.exists()) {
-    return rat.play("idle")
-  }
-  const dir = player.pos.sub(rat.pos).unit()
-  rat.move(dir.scale(180))
-  if(dir.x>0){
-    rat.flipX(false)
-  } else {
-    rat.flipX(true)
-  }
-})
+scene("gameover", () => {
 
-rat.enterState("move")*/
+  add([
+    text("Press space to start", { size: 24 }),
+    pos(vec2(160, 120)),
+    origin("center"),
+    color(255, 255, 255),
+  ]);
+
+  onKeyRelease("space", () => {
+    go("game", { level: 0, score: 0 });
+  })
+});
+
+go('game', { level: 0, score: 0 })
