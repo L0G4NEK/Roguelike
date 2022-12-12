@@ -62,8 +62,7 @@ loadSprite("rat", "src/assets/rat.png", {
 })
 
 loadSprite("shaman", "src/assets/shaman.png", {
-  sliceX: 16,
-  sliceY: 1,
+  sliceX: 21,
   anims: {
     idle: {
       from: 0,
@@ -93,52 +92,10 @@ loadSprite('bg', 'src/assets/bg.png')
 scene('game', ({ level, score }) => {
   layers(['bg', 'obj', 'ui'], 'obj')
 
-  const maps = [[
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "xS                                         Sx",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                  R                     x x",
-    "x x                                       x x",
-    "x x                              R         x x",
-    "x x            R                           x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                         R              x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x x                                       x x",
-    "x xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx x",
-    "x                                           x",
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  ]]
-  const levelCfg = {
-    width: 16,
-    height: 16,
-    "x": () => [
-      sprite("wall"),
-      area(),
-      solid(),
-    ],
-    "R": () => [
-      area(),
-      solid(),
-      sprite("rat", {anim: "run"}),
-      state('move'),
-      "enemy",
-      'rat'
-    ],
-  }
-  add([sprite('bg'), layer('bg')])
-
-  addLevel(maps[0], levelCfg)
-
+  //Speed
+  let PLAYER_SPEED = 120;
+  let RAT_SPEED = 100;
+  const BULLET_SPEED = 400;
 
   // Characters
 
@@ -153,19 +110,62 @@ scene('game', ({ level, score }) => {
     }
   ])
 
-  const rat = add([
-    pos(200, 150),
-    area(),
-    solid(),
-    sprite("rat", {anim: "run"}),
-    state('move'),
-    "enemy"
-  ])
 
-  // Camera following player
-  /*player.onUpdate(() => {
-    camPos(player.pos)
-  })*/
+  const maps = [[
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xS                                         Sx",
+    "x x                                      xx x",
+    "x x                                      xx x",
+    "x x                                      xx x",
+    "x x                                      x  x",
+    "x x                                      xx x",
+    "x x                                      xx x",
+    "x x                  R                   xx x",
+    "x x                                      xx x",
+    "x x                              R       x  x",
+    "x x            R                         xx x",
+    "x x                                      xx x",
+    "x x                                      xx x",
+    "x x                         R            xx x",
+    "x x                                      x  x",
+    "x x                                      xx x",
+    "x x                                      xx x",
+    "x x                                      xx x",
+    "x x                                      x  x",
+    "x xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxx x",
+    "x                                           x",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  ]]
+  const levelCfg = {
+    width: 16,
+    height: 16,
+    "x": () => [
+      sprite("wall"),
+      area(),
+      solid(),
+      'wall'
+    ],
+    "R": () => [
+      area(),
+      solid(),
+      sprite("rat", {anim: "run"}),
+      state('move'),
+      "enemy",
+      'rat',
+    ],
+    "S": () => [
+      area(),
+      solid(),
+      sprite("shaman", {anim: "idle"}),
+      "enemy",
+      'shaman',
+      { timer: 0 }
+    ],
+  }
+  add([sprite('bg'), layer('bg'), "ground"])
+
+  addLevel(maps[0], levelCfg)
+
 
   // GetRandom
 
@@ -199,26 +199,26 @@ scene('game', ({ level, score }) => {
 
   onKeyDown("up", () => {
     if (!player.dead) {
-      player.move(0, -120)
+      player.move(0, -PLAYER_SPEED)
     }
   })
 
   onKeyDown("down", () => {
     if (!player.dead) {
-      player.move(0, 120)
+      player.move(0, PLAYER_SPEED)
     }
   })
 
   onKeyDown("left", () => {
     if (!player.dead) {
-      player.move(-120, 0)
+      player.move(-PLAYER_SPEED, 0)
       player.flipX(true)
     }
   })
 
   onKeyDown("right", () => {
     if (!player.dead) {
-      player.move(120, 0)
+      player.move(PLAYER_SPEED, 0)
       player.flipX(false)
     }
   })
@@ -242,49 +242,60 @@ scene('game', ({ level, score }) => {
   })
 
   onKeyPress(["space"], () => {
+    PLAYER_SPEED = 480
+    wait(.1, () =>{
+      PLAYER_SPEED = 120
+    })
   })
 
   //Rat AI
-  rat.onStateEnter("idle", async () => {
-    await wait(0.5)
-    rat.enterState("move")
-  })
-  rat.onStateUpdate("move", () => {
-    if (!player.exists()) {
-      return rat.play("idle")
-    }
-    const dir = player.pos.sub(rat.pos).unit()
-    rat.move(dir.scale(50))
-    if (dir.x > 0) {
-      rat.flipX(false)
-    } else {
-      rat.flipX(true)
-    }
-  })
-  rat.enterState("move")
 
-  onUpdate('rat', (rat) => {
-    rat.onStateEnter("idle", async () => {
-      await wait(0.5)
-      rat.enterState("move")
-    })
+    onUpdate('rat', (rat) => {
+      if (player.exists()) {
+        const dir = player.pos.sub(rat.pos).unit()
+        rat.move(dir.scale(RAT_SPEED))
+        if (dir.x > 0) {
+          rat.flipX(false)
+        } else {
+          rat.flipX(true)
+        }
+      }
   })
 
-  onUpdate('rat', (rat) => {
-    rat.onStateUpdate("move", () => {
-      if (!player.exists()) {
-        return rat.play("idle")
-      }
-      const dir = player.pos.sub(rat.pos).unit()
-      rat.move(dir.scale(1))
-      if (dir.x > 0) {
-        rat.flipX(false)
-      } else {
-        rat.flipX(true)
-      }
+//  Shaman AI
+
+  onUpdate('shaman', (shaman) => {
+
+    shaman.timer -= dt()
+    if (player.exists() && shaman.timer <= 0) {
+      const dir = player.pos.sub(shaman.pos).unit()
+      console.log(shaman.pos.x + 8, shaman.pos.y + 8)
+
+      add([
+          pos(shaman.pos.x + 8, shaman.pos.y + 8),
+          move(dir, BULLET_SPEED),
+          rect(3, 3),
+          area(),
+          cleanup(),
+          color(BLUE),
+          "bullet",
+      ])
+      shaman.timer = rand(5)
+    }
+  })
+
+//  Bullet
+  onUpdate('bullet', (bullet) => {
+    bullet.onCollide('wall', () => {
+      destroy(bullet)
     })
+  })
+  player.onCollide('bullet', (bullet) => {
+    player.hurt(1)
+    bullet.destroy()
   })
 })
+
 
 scene("gameover", () => {
 
