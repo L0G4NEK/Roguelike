@@ -4,7 +4,7 @@ import kaboom from 'kaboom';
 kaboom({
   global: true,
   height:370,
-  width:720,
+  width:624,
   scale: 2,
   debug: true,
   clearColor: [0, 0, 1, 1]
@@ -83,10 +83,35 @@ loadSprite("shaman", "src/assets/shaman.png", {
     }
   },
 })
+loadSprite("stab", "src/assets/stab.png", {
+  sliceX: 5,
+  sliceY: 2,
+  anims: {
+    attack: {
+      from: 4,
+      to: 6,
+      speed: 10,
+    },
+  }
+})
+
+loadSprite("slash", "src/assets/slash.png", {
+  sliceX: 10,
+  anims: {
+    attack: {
+      from: 0,
+      to: 9,
+      speed: 60,
+    },
+  }
+})
 
 loadSprite('wall', 'src/assets/wall.png')
 loadSprite('floor', 'src/assets/floor.png')
 loadSprite('bg', 'src/assets/bg.png')
+loadSprite('trap', 'src/assets/trap.png')
+loadSprite('fullHeart', 'src/assets/fullHeart.png')
+loadSprite('emptyHeart', 'src/assets/emptyHeart.png')
 
 //Add level
 scene('game', ({ level, score }) => {
@@ -95,7 +120,7 @@ scene('game', ({ level, score }) => {
   //Speed
   let PLAYER_SPEED = 120;
   let RAT_SPEED = 100;
-  const BULLET_SPEED = 400;
+  const BULLET_SPEED = 200;
 
   // Characters
 
@@ -103,38 +128,67 @@ scene('game', ({ level, score }) => {
     pos(width() / 2, height() - 32),
     area(),
     solid(),
+    scale(0.9),
     sprite("warrior", {anim: "idle"}),
     health(3),
     {
       dead: false,
     }
   ])
+    add([
+      pos(15, -20),
+      sprite("fullHeart"),
+      layer('ui'),
+      'heart1',
+      {
+        lost: false
+      }
+    ])
+    add([
+      pos(45, -20),
+      sprite("fullHeart"),
+      layer('ui'),
+      'heart2',
+      {
+        lost: false
+      }
+    ])
+    add([
+      pos(75, -20),
+      sprite("fullHeart"),
+      layer('ui'),
+      'heart3',
+      {
+        lost: false
+      }
+    ])
 
+  //Map
 
   const maps = [[
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "xS                                         Sx",
-    "x x                                      xx x",
-    "x x                                      xx x",
-    "x x                                      xx x",
-    "x x                                      x  x",
-    "x x                                      xx x",
-    "x x                                      xx x",
-    "x x                  R                   xx x",
-    "x x                                      xx x",
-    "x x                              R       x  x",
-    "x x            R                         xx x",
-    "x x                                      xx x",
-    "x x                                      xx x",
-    "x x                         R            xx x",
-    "x x                                      x  x",
-    "x x                                      xx x",
-    "x x                                      xx x",
-    "x x                                      xx x",
-    "x x                                      x  x",
-    "x xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxx x",
-    "x                                           x",
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xS                                    x",
+    "x xx  xxxxxxxxxxxxxxxxxxxxxxxxxxx  xx x",
+    "x xx                     R      xT xx x",
+    "x xx        R         S         x  xx x",
+    "x  x              R       xxxxxxx Tx  x",
+    "x xx                      x        xx x",
+    "x xx                      x   xxxxxxx x",
+    "x xx      R         S     x#TT###TTxx x",
+    "x xx                      x####T#TTxx x",
+    "x  x                      xTTTTT#TTx  x",
+    "x xx      R               xTT####TTxx x",
+    "x xx              R       xTT#TTTTTxx x",
+    "x xx                      xTT####TTxx x",
+    "x xx                  R   xxxxxx   xx x",
+    "x  x                           x   x  x",
+    "x xx       S          R        x   xx x",
+    "x xx          R             xxxx   xx x",
+    "x xx                               xx x",
+    "x xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx x",
+    "x                                     x",
+    "x                                     x",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   ]]
   const levelCfg = {
     width: 16,
@@ -155,11 +209,22 @@ scene('game', ({ level, score }) => {
     ],
     "S": () => [
       area(),
-      solid(),
       sprite("shaman", {anim: "idle"}),
       "enemy",
       'shaman',
       { timer: 0 }
+    ],
+    "T": () => [
+      area(),
+      sprite("trap"),
+      layer('bg'),
+      'trap',
+      {isUsed: false}
+    ],
+    "#": () => [
+      sprite("trap"),
+      layer('bg'),
+      'fakeTrap',
     ],
   }
   add([sprite('bg'), layer('bg'), "ground"])
@@ -181,11 +246,9 @@ scene('game', ({ level, score }) => {
   }
 
   //Fight
-  //Need debuging
 
   player.onCollide("enemy", (enemy) => {
     player.hurt(1)
-    enemy.enterState("idle")
   })
 
   player.onDeath(() => {
@@ -248,6 +311,27 @@ scene('game', ({ level, score }) => {
     })
   })
 
+  //Attack
+
+  onMousePress("left", () => {
+    let attack = add([
+      pos(player.pos.x + 8, player.pos.y + 8),
+      area(),
+      scale(0.7),
+      sprite("slash", {anim: "attack"}),
+      origin("center"),
+      'attack'
+    ])
+    wait(.3, () => {
+      destroy(attack)
+    })
+    attack.onCollide('enemy', (enemy) => {
+      destroy(enemy)
+    })
+  })
+
+
+
   //Rat AI
 
     onUpdate('rat', (rat) => {
@@ -269,7 +353,6 @@ scene('game', ({ level, score }) => {
     shaman.timer -= dt()
     if (player.exists() && shaman.timer <= 0) {
       const dir = player.pos.sub(shaman.pos).unit()
-      console.log(shaman.pos.x + 8, shaman.pos.y + 8)
 
       add([
           pos(shaman.pos.x + 8, shaman.pos.y + 8),
@@ -280,7 +363,7 @@ scene('game', ({ level, score }) => {
           color(BLUE),
           "bullet",
       ])
-      shaman.timer = rand(5)
+      shaman.timer = 1.5
     }
   })
 
@@ -292,7 +375,15 @@ scene('game', ({ level, score }) => {
   })
   player.onCollide('bullet', (bullet) => {
     player.hurt(1)
-    bullet.destroy()
+    destroy(bullet)
+  })
+
+  //Traps
+  player.onCollide('trap', (trap) => {
+    if (!trap.used) {
+      player.hurt(1)
+      trap.used = true
+    }
   })
 })
 
