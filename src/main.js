@@ -170,7 +170,7 @@ scene('game', ({ level, score }) => {
     "xS                                    x",
     "x xx  xxxxxxxxxxxxxxxxxxxxxxxxxxx  xx x",
     "x xx                     R      xT xx x",
-    "x xx        R         S         x  xx x",
+    "x xx        R                   x  xx x",
     "x  x              R       xxxxxxx Tx  x",
     "x xx                      x        xx x",
     "x xx                      x   xxxxxxx x",
@@ -247,7 +247,7 @@ scene('game', ({ level, score }) => {
 
   //Fight
 
-  player.onCollide("enemy", (enemy) => {
+  player.onCollide("enemy", () => {
     player.hurt(1)
   })
 
@@ -257,6 +257,7 @@ scene('game', ({ level, score }) => {
     wait(1, () => destroy(player))
     go("gameover");
   })
+
 
   // Movement
 
