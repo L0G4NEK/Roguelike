@@ -7,17 +7,23 @@
     <title>Roguelike</title>
     <link rel="stylesheet" href="./style/mainpage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../dist/style.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
-<body class="h-full bg-bg justify-center items-center">
+<body class="h-screen bg-bg bg-cover bg-no-repeat bg-center flex justify-center items-center">
 <div id="App"></div>
-<div class="menu justify-center">
-    <h1 id="displayEmail">Welcome, User</h1>
-    <div id="play">Play</div>
-    <div id="achievements">Achievements</div>
-    <div id="settings">Settings</div>
-    <div id="logout">Logout</div>
+<div class="border-2 border-neutral-500 border-solid">
+    <div class="border-2 border-neutral-400 border-solid">
+        <div class="menu bg-neutral-600 p-10 text-white border-2 border-neutral-500 border-solid shadow-inner shadow-neutral-800">
+            <h1 id="displayEmail" class="text-3xl">Welcome, User</h1>
+            <div id="play" class="flex bg-red-600 p-2 m-0.5 justify-center border-2 border-white border-solid">Play</div>
+            <div id="achievements" class="flex bg-red-600 p-2 m-0.5 justify-center border-2 border-white border-solid">Achievements</div>
+            <div id="settings" class="flex bg-red-600 p-2 m-0.5 justify-center border-2 border-white border-solid">Settings</div>
+            <div id="logout" class="flex bg-red-600 p-2 m-0.5 justify-center border-2 border-white border-solid">Logout</div>
+        </div>
+    </div>
 </div>
+
+
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="/__/firebase/6.2.4/firebase-app.js"></script>
 <script src="/__/firebase/6.2.4/firebase-auth.js"></script>
