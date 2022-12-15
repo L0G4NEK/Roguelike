@@ -12,7 +12,7 @@ auth.onAuthStateChanged(user => {
 
 
 const startGame = () => {
-    window.location.assign('./game');
+    window.location.assign('./index');
 }
 
 play.addEventListener('click', startGame);
@@ -20,7 +20,7 @@ play.addEventListener('click', startGame);
 const logOut = () => {
     auth.signOut()
     .then(() => {
-        window.location.assign('../');
+        window.location.assign('./signin');
     })
 }
 
@@ -28,6 +28,6 @@ logout.addEventListener('click', logOut);
 
 auth.onAuthStateChanged(user => {
     if(!user) {
-        window.location.assign('../');
+        window.location.assign('./signin');
     }
 })

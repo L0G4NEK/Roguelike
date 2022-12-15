@@ -23,8 +23,8 @@
         "type":  301
       },
       {
-        "source": "/game",
-        "destination": "./game.html",
+        "source": "/signin",
+        "destination": "./signin.html",
         "type":  301
       }
     ]
