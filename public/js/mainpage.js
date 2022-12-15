@@ -1,4 +1,5 @@
 const play = document.getElementById('play');
+const howToPlay = document.getElementById('howToPlay');
 const achievements = document.getElementById('achievements');
 const settings = document.getElementById('settings');
 const logout = document.getElementById('logout');

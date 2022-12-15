@@ -7,7 +7,7 @@ const mainMenu = document.getElementById('mainMenu');
 const auth = firebase.auth();
 
 const goToMainMenu = () => {
-    window.location.assign('./mainPage');
+    window.location.assign('./mainpage');
 }
 
 mainMenu.addEventListener('click', goToMainMenu);
