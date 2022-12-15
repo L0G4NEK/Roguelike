@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite public",
-    "build": "vite build",
+    "build": "vite build public",
     "preview": "vite preview",
     "build:css": "tailwind build -i public/src/style.css -o public/style/style.css"
   },
