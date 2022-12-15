@@ -1,4 +1,21 @@
 import kaboom from 'kaboom';
+import bg from './assets/bg.png';
+import warrior from './assets/warrior.png';
+import shaman from './assets/shaman.png';
+import stab from './assets/stab.png';
+import slash from './assets/slash.png';
+import wall from './assets/wall.png';
+import floor from './assets/floor.png';
+import trap from './assets/trap.png';
+import usedTrap from './assets/usedTrap.png';
+import fullHeart from './assets/fullHeart.png';
+import emptyHeart from './assets/emptyHeart.png';
+import stairsDown from './assets/stairsDown.png';
+import stairsUp from './assets/stairsUp.png';
+import info from './assets/info.png';
+import rat from './assets/rat.png';
+
+
 
 kaboom({
   global: true,
@@ -12,7 +29,7 @@ kaboom({
 // Sprites
 
 
-loadSprite("warrior", "src/assets/warrior.png", {
+loadSprite("warrior", warrior, {
   sliceX: 21,
   sliceY: 8.5,
   anims: {
@@ -36,7 +53,7 @@ loadSprite("warrior", "src/assets/warrior.png", {
   },
 })
 
-loadSprite("rat", "src/assets/rat.png", {
+loadSprite("rat", rat, {
   sliceX: 16,
   sliceY: 2,
   anims: {
@@ -60,7 +77,7 @@ loadSprite("rat", "src/assets/rat.png", {
   },
 })
 
-loadSprite("shaman", "src/assets/shaman.png", {
+loadSprite("shaman", shaman, {
   sliceX: 21,
   anims: {
     idle: {
@@ -82,7 +99,7 @@ loadSprite("shaman", "src/assets/shaman.png", {
     }
   },
 })
-loadSprite("stab", "src/assets/stab.png", {
+loadSprite("stab", stab, {
   sliceX: 5,
   sliceY: 2,
   anims: {
@@ -94,7 +111,7 @@ loadSprite("stab", "src/assets/stab.png", {
   }
 })
 
-loadSprite("slash", "src/assets/slash.png", {
+loadSprite("slash", slash, {
   sliceX: 10,
   anims: {
     attack: {
@@ -105,16 +122,16 @@ loadSprite("slash", "src/assets/slash.png", {
   }
 })
 
-loadSprite('wall', 'src/assets/wall.png')
-loadSprite('floor', 'src/assets/floor.png')
-loadSprite('bg', 'src/assets/mainPageBG.png')
-loadSprite('trap', 'src/assets/trap.png')
-loadSprite('usedTrap', 'src/assets/usedTrap.png')
-loadSprite('fullHeart', 'src/assets/fullHeart.png')
-loadSprite('emptyHeart', 'src/assets/emptyHeart.png')
-loadSprite('stairsDown', 'src/assets/stairsDown.png')
-loadSprite('stairsUp', 'src/assets/stairsUp.png')
-loadSprite('info', 'src/assets/info.png')
+loadSprite('wall', wall)
+loadSprite('floor', floor)
+loadSprite('bg', bg)
+loadSprite('trap', trap)
+loadSprite('usedTrap', usedTrap)
+loadSprite('fullHeart', fullHeart)
+loadSprite('emptyHeart', emptyHeart)
+loadSprite('stairsDown', stairsDown)
+loadSprite('stairsUp', stairsUp)
+loadSprite('info', info)
 
 //Add level
 scene('game', ({ level }) => {
