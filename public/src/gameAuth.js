@@ -2,6 +2,7 @@
 const logout = document.getElementById('logout');
 const mainMenu = document.getElementById('mainMenu');
 
+
 const auth = firebase.auth();
 
 const goToMainMenu = () => {
