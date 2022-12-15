@@ -107,7 +107,7 @@ loadSprite("slash", "src/assets/slash.png", {
 
 loadSprite('wall', 'src/assets/wall.png')
 loadSprite('floor', 'src/assets/floor.png')
-loadSprite('bg', 'src/assets/bg.png')
+loadSprite('bg', 'src/assets/mainPageBG.png')
 loadSprite('trap', 'src/assets/trap.png')
 loadSprite('usedTrap', 'src/assets/usedTrap.png')
 loadSprite('fullHeart', 'src/assets/fullHeart.png')
