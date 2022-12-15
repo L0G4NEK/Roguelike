@@ -2,7 +2,6 @@
   "name": "my-game",
   "private": true,
   "version": "0.0.0",
-  "src": "public/index.html",
   "type": "module",
   "scripts": {
     "dev": "vite public",
@@ -11,6 +10,7 @@
     "build:css": "tailwind build -i public/src/style.css -o public/style/style.css"
   },
   "devDependencies": {
+    "@types/node": "^18.11.15",
     "vite": "^3.2.3"
   },
   "dependencies": {
