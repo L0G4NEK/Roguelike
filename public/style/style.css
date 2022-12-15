@@ -715,6 +715,11 @@ video {
   border-color: rgb(115 115 115 / var(--tw-border-opacity));
 }
 
+.border-neutral-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(163 163 163 / var(--tw-border-opacity));
+}
+
 .bg-neutral-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(82 82 82 / var(--tw-bg-opacity));
@@ -743,20 +748,20 @@ video {
   background-image: none;
 }
 
-.bg-sword {
-  background-image: url('/public/src/assets/sword.png');
+.bg-\[url\(\'\/src\/assets\/sword\.png\'\)\] {
+  background-image: url('/src/assets/sword.png');
 }
 
-.bg-armor {
-  background-image: url('/public/src/assets/Armor.png');
+.bg-\[url\(\'\/src\/assets\/Armor\.png\'\)\] {
+  background-image: url('/src/assets/Armor.png');
 }
 
-.bg-ring {
-  background-image: url('/public/src/assets/Ring.png');
+.bg-\[url\(\'\/src\/assets\/Ring\.png\'\)\] {
+  background-image: url('/src/assets/Ring.png');
 }
 
-.bg-bg {
-  background-image: url('/public/img/bg.png');
+.bg-\[url\(\'public\/img\/bg\.png\'\)\] {
+  background-image: url('public/img/bg.png');
 }
 
 .bg-contain {
