@@ -12,7 +12,7 @@ auth.onAuthStateChanged(user => {
 
 
 const startGame = () => {
-    window.location.assign('./index');
+    window.location.assign('./game');
 }
 
 play.addEventListener('click', startGame);

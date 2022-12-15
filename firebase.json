@@ -21,8 +21,12 @@
         "source": "/mainpage",
         "destination": "./mainpage.html",
         "type":  301
+      },
+      {
+        "source": "/game",
+        "destination": "./game.html",
+        "type":  301
       }
-
     ]
   }
 }

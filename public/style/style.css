@@ -744,15 +744,15 @@ video {
 }
 
 .bg-sword {
-  background-image: url('/src/assets/sword.png');
+  background-image: url('/public/src/assets/sword.png');
 }
 
 .bg-armor {
-  background-image: url('/src/assets/Armor.png');
+  background-image: url('/public/src/assets/Armor.png');
 }
 
 .bg-ring {
-  background-image: url('/src/assets/Ring.png');
+  background-image: url('/public/src/assets/Ring.png');
 }
 
 .bg-bg {
