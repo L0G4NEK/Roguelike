@@ -109,59 +109,21 @@ loadSprite('wall', 'src/assets/wall.png')
 loadSprite('floor', 'src/assets/floor.png')
 loadSprite('bg', 'src/assets/bg.png')
 loadSprite('trap', 'src/assets/trap.png')
+loadSprite('usedTrap', 'src/assets/usedTrap.png')
 loadSprite('fullHeart', 'src/assets/fullHeart.png')
 loadSprite('emptyHeart', 'src/assets/emptyHeart.png')
+loadSprite('stairsDown', 'src/assets/stairsDown.png')
+loadSprite('stairsUp', 'src/assets/stairsUp.png')
+loadSprite('info', 'src/assets/info.png')
 
 //Add level
-scene('game', ({ level, score }) => {
+scene('game', ({ level }) => {
   layers(['bg', 'obj', 'ui'], 'obj')
 
   //Speed
   let PLAYER_SPEED = 120;
   let RAT_SPEED = 100;
   const BULLET_SPEED = 200;
-
-  // Characters
-
-  const player = add([
-    pos(width() / 2, height() - 32),
-    area(),
-    solid(),
-    scale(0.9),
-    sprite("warrior", {anim: "idle"}),
-    health(3),
-    {
-      dead: false,
-    }
-  ])
-    add([
-      pos(15, -20),
-      sprite("fullHeart"),
-      layer('ui'),
-      'heart1',
-      {
-        lost: false
-      }
-    ])
-    add([
-      pos(45, -20),
-      sprite("fullHeart"),
-      layer('ui'),
-      'heart2',
-      {
-        lost: false
-      }
-    ])
-    add([
-      pos(75, -20),
-      sprite("fullHeart"),
-      layer('ui'),
-      'heart3',
-      {
-        lost: false
-      }
-    ])
-
   //Map
 
   const maps = [[
@@ -171,7 +133,7 @@ scene('game', ({ level, score }) => {
     "x xx                     R      xT xx x",
     "x xx        R                   x  xx x",
     "x  x                      xxxxxxx Txx x",
-    "x xx                      x        xx x",
+    "x xx                      xi       xx x",
     "x xx                      x   xxxxxxx x",
     "x xx                R     x#TTTTTTTxx x",
     "x xx                      x#TTTTTTTxx x",
@@ -181,14 +143,65 @@ scene('game', ({ level, score }) => {
     "x xx                      x######TTxx x",
     "x xx                  R   xxxxxx   xx x",
     "x  x                           x   xx x",
-    "x xx       R          R        x   xx x",
+    "x xx       R          R       $x   xx x",
     "x xx          R             xxxx   xx x",
     "x xx                               xx x",
     "x xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx x",
     "x                                     x",
-    "x                                     x",
+    "x                  %                  x",
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  ]]
+  ],
+    [
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "x       x  x       $      x x  x  x x x",
+      "x xxx xxx  T              x xx xx   x x",
+      "x x   x    x              x  x  x x   x",
+      "x x  xx xx xx#xxxxxxxxxxxxx  x    xxxxx",
+      "x x  x     x  x        xx xT x xxxx x x",
+      "x xxxxT xxxx  xxxxxxx   x      x    x x",
+      "x      T   x        x xxx xxxxx  xxxx x",
+      "xx xxxxxxxxxxxxx x# x x         xx  x x",
+      "x  x  x        x x #x xxxxTxxx xxx  x x",
+      "x  x  x xxxxxx#xxx  x x  x   x   T    x",
+      "x     x x x  x      x x  xxx xxxxxxxxxx",
+      "xxxxxxx x xx xxxxxxxx x               x",
+      "x     # x      x      xxxxxxxx xx xxxxx",
+      "x xxxxxxxxxxxxTx xxxxxx  x   xTx      x",
+      "x xx x xx x    x        xxTxxx x  xxxxx",
+      "x  x x x  x xxxxTxxxxxxxx  x x x  x   x",
+      "xx#x   xx   x  x      x      x x    x x",
+      "x  x    xxxTx xxxxxxx xTxxxxxx xxxxTx x",
+      "x xxxxx x x         x x      x x  x x x",
+      "x xxxxx x xxxxxxxx I  xxxxxx x xx xxx x",
+      "x                  %                  x",
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    ],
+    [
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "x                  $                  x",
+      "x                 SSS                 x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x#TTTTTTTTTTTTTTTTT*TTTTTTTTTTTTTTTTT#x",
+      "x                                     x",
+      "x                  %J                 x",
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    ],
+  ]
   const levelCfg = {
     width: 16,
     height: 16,
@@ -225,10 +238,88 @@ scene('game', ({ level, score }) => {
       layer('bg'),
       'fakeTrap',
     ],
+    "*": () => [
+      sprite("usedTrap"),
+      layer('bg'),
+    ],
+    "$": () => [
+      sprite("stairsDown"),
+      area(),
+      'next-level',
+    ],
+    "i": () => [
+      sprite("info"),
+      area(),
+      'info',
+      {
+        msg: "Walk close to wall"
+      }
+    ],
+    "I": () => [
+      sprite("info"),
+      area(),
+      'info',
+      {
+        msg: "Don't trust your eyes"
+      }
+    ],
+    "J": () => [
+      sprite("info"),
+      area(),
+      'info',
+      {
+        msg: "Walls are your friends"
+      }
+    ],
+    "%": () => [
+      sprite("stairsUp"),
+      layer('bg'),
+    ],
   }
   add([sprite('bg'), layer('bg'), "ground"])
 
-  addLevel(maps[0], levelCfg)
+  addLevel(maps[level], levelCfg)
+
+  // Characters
+
+  const player = add([
+    pos(width() / 2, height() - 32),
+    area(),
+    solid(),
+    scale(0.9),
+    sprite("warrior", {anim: "idle"}),
+    health(3),
+    {
+      dead: false,
+    }
+  ])
+  add([
+    pos(15, -20),
+    sprite("fullHeart"),
+    layer('ui'),
+    'heart1',
+    {
+      lost: false
+    }
+  ])
+  add([
+    pos(45, -20),
+    sprite("fullHeart"),
+    layer('ui'),
+    'heart2',
+    {
+      lost: false
+    }
+  ])
+  add([
+    pos(75, -20),
+    sprite("fullHeart"),
+    layer('ui'),
+    'heart3',
+    {
+      lost: false
+    }
+  ])
 
 
   // GetRandom
@@ -330,6 +421,32 @@ scene('game', ({ level, score }) => {
     })
   })
 
+  //Next-level
+
+  player.onCollide('next-level', () => {
+    level++
+    if(level < maps.length) {
+      go('game', { level: level })
+    } else {
+      go('win')
+    }
+  })
+
+  //Info
+
+  player.onCollide('info', (info) => {
+    let information = add([
+      pos(info.pos),
+      text(info.msg, {
+        size: 12,
+        width: 320,
+        font: "sink",
+      }),
+    ])
+    wait(1, () => {
+      destroy(information)
+    })
+  })
 
 
   //Rat AI
@@ -388,6 +505,25 @@ scene('game', ({ level, score }) => {
 })
 
 
+scene('win', () => {
+  add([
+    text("You won!!!", { size: 24 }),
+    pos(vec2(width()/2, 120)),
+    origin("center"),
+    color(255, 255, 255),
+  ]);
+  add([
+    text("Press space to start again", { size: 16 }),
+    pos(vec2(width()/2, 200)),
+    origin("center"),
+    color(255, 255, 255),
+  ]);
+
+  onKeyRelease("space", () => {
+    go("game", { level: 0 });
+  })
+})
+
 scene("gameover", () => {
 
   add([
@@ -398,8 +534,8 @@ scene("gameover", () => {
   ]);
 
   onKeyRelease("space", () => {
-    go("game", { level: 0, score: 0 });
+    go("game", { level: 0 });
   })
 });
 
-go('game', { level: 0, score: 0 })
+go('game', { level: 0 })
