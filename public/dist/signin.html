@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Home</title>
+      <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACY0lEQVR4AcWTA6xcQRhGn20rqm2bMRs3rM2wtm0zqhHUtqI6qm0s3ur+/Wa9/+Ji9qVJTjA652ISiCg2exP6gyZ8PF5oCZgOboHk/xVwEBCYGmGuFehS1wHPvQEW0JDNLQfH4xrABNnACcjLdZDknUsC74ELNKirgE6AGJO8cwODxraIsUgod5qmyASMjBBgAvXB/qAxCygJ23+vSROwXSZgEyCObVPKI8e2ZAsbn8PkzcEn8Eom4EakgN+Lssi0IoOPfwWZXnkb8AUQUOxXWuTqDRDyRPAnwtPT99m59GNOLim7EnnEKAjbgW+AfDivN+9sJKABIM6vhdnuAIFlbVro/KGstxD+BBSM62azoUYCBnF57cZUv1zwc3420R6fHG//TiMhDAM3YZWRgHnBciESQohDEJ8ET87lnNNGAk4GB1jXp4XJBeatRWpywVsjAS99cmVPIv2clxMm/7OhlJTbjYVAFdyEfM0BkBaEPP3atHD5RsjvqMuDbkI3PQG9/U+/O5F+zA19+r+bSonU5fwmjNQTMNEXYFmdHirfUqZX7rsJa/UE7ALk2oWnn5MTkG+F/K52KeO8noAHgMwr0wPybeUycsFHTQEQpwCra2cSfZ/jkZt2yMl9OK60KNIS0AyQaXmGR76rQkbKb0JPLQGDnduT3HLzbkk5w3Wr2RgtAcv/Lssk895KeSlDudtko2qAfUvKbdPe6rjL8fRku9jysmqAaU+N03q2lVgsNsVLTOJM8EU1AIv6gCuAJEK4WHAF9FEJkAzRIeYB0iF6xTzAaIhhMQ8wHKJTLB/AQ5hYN/8Am8FSntayj78AAAAASUVORK5CYII=" type="image/x-icon">
+      
+    <script type="module" crossorigin src="/assets/signin.939cea7c.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.c7c6310f.js">
+    <link rel="stylesheet" href="/assets/signin.9db86ac2.css">
+  </head>
+  <body>
+    <main>
+      <div class="wrapper">
+        <section class="container mail-container">
+            <fieldset>
+              <div>
+                  <img src="/assets/mail.0aadcd22.svg" alt="signin with mail & password">
+              </div>
+            <div>
+              <label for="mail">Email</label> <br>
+              <input type="email" id="mail" name="mail"/>
+            </div>
+            <div>
+              <label for="password">Password</label> <br>
+              <input type="password" id="password" name="password"/>
+            </div>
+            <a href="./reset">I forgot my password</a>
+            <div class="clearfix"></div>
+            <button id="signInWithMail">Login</button>
+            <button id="signUp">Signup</button>
+          </fieldset>    
+      </section>
+      <section class="socialMedia-container"> <br>
+          <button id="signInWithGoogle">Login with your Google
+              <img src="/assets/google.0cf576a5.svg" width="20px" height="20px" alt="Sign in with your Google account.">
+          </button>
+      </section>
+      </div>
+      <nav>
+        <input type="radio" id="method1" name="method" value="method1" checked>Sign in with your email &#38; password <br>
+        <input type="radio" id="method2" name="method" value="method2">Sign in with your social media account <br>
+      </nav>
+      <div class="feedbackContainer success">
+        <div class="feedbackIcon"></div>
+        <p class="feedbackMessage">Signed up Successfully</p>
+      </div>
+      <div class="feedbackContainer failure">
+        <div class="feedbackIcon"></div>
+        <p class="feedbackMessage">Signing up failed</p>
+      </div>
+    </main>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/6.2.4/firebase-app.js"></script>
+    <script src="/__/firebase/6.2.4/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#reserved-urls -->
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+
+    
+  </body>
+</html>

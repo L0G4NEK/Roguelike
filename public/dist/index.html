@@ -9,67 +9,73 @@
     
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index.9b92ed31.js"></script>
-    <link rel="stylesheet" href="/assets/index.cdc407ab.css">
+    <script type="module" crossorigin src="/assets/main.3b4497ef.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.c7c6310f.js">
+    <link rel="stylesheet" href="/assets/index.4840febc.css">
+    <link rel="stylesheet" href="/assets/style.79c2aeb4.css">
   </head>
   <body class="flex justify-center items-center">
     <div id="app"></div>
-    <div id="inventory" class="relative h-full w-full bg-neutral-600 flex items-center flex-col text-white pt-4">
+    <div class="h-screen w-full border-2 border-neutral-500 border-solid">
+      <div class="h-screen w-full border-2 border-neutral-400 border-solid">
+        <div id="inventory" class="h-screen w-full relative bg-neutral-600 flex items-center flex-col text-white pt-4 border-2 border-neutral-500 border-solid shadow-inner shadow-neutral-900">
 
-      <h1 id="heroName" class="text-3xl"></h1>
-      <h2 class="text-xl">Warrior</h2>
+        <h1 id="heroName" class="text-3xl"></h1>
+        <h2 class="text-xl">Warrior</h2>
 
-      <div id="Stats" class="flex flex-col items-start w-40 border-2 border-white border-solid shadow-lg shadow-neutral-800 bg-neutral-700 shadow-inner shadow-neutral-800 mb-28 mt-28 rounded-xl">
-        <div class="w-full border-b-2 border-white border-solid bg-neutral-600 p-2 rounded-t-xl">
-          <p>Attributes:</p>
+        <div id="Stats" class="flex flex-col items-start w-40 border-2 border-white border-solid shadow-lg shadow-neutral-800 bg-neutral-700 shadow-inner shadow-neutral-800 mb-28 mt-28 rounded-xl">
+          <div class="w-full border-b-2 border-white border-solid bg-neutral-600 p-2 rounded-t-xl">
+            <p>Attributes:</p>
+          </div>
+          <div class="p-2">Power: 1</div>
+          <div class="p-2">Speed: 1.2</div>
+          <div class="p-2">Armor: 0</div>
         </div>
-        <div class="p-2">Power: 1</div>
-        <div class="p-2">Speed: 1.2</div>
-        <div class="p-2">Armor: 0</div>
+
+
+        <button data-modal-target="#modal" class="absolute border-2 border-white border-solid drop-shadow-lg top-4 left-4 pt-4 px-4 pb-2 bg-red-700 cursor-pointer">
+          <i class="material-icons">menu</i>
+        </button>
+        <div class="modal fixed z-10 bg-neutral-600 w-60" id="modal">
+          <div class="modal-header flex justify-between items-center py-2.5 px-2.5">
+            <div class="title font-bold text-2xl">Menu</div>
+            <button data-close-button class="close-button cursor-pointer border-none outline-none bg-none font-bold text-2xl">&times;</button>
+          </div>
+          <div class="modal-body py-2.5 px-2.5">
+            <div id="mainMenu" class="cursor-pointer">Main Menu</div>
+            <div id="logout" class="cursor-pointer">Logout</div>
+          </div>
+        </div>
+        <div id="overlay" class="fixed top-0 bottom-0 left-0 right-0 bg-black/[.5] pointer-events-none"></div>
+
+
+        <div class="flex justify-end items-center flex-col">
+          <h1>Inventory</h1>
+          <div id="usedItems" class="flex justify-center items-center mb-2">
+            <div id="weapon" class="bg-[url('/src/assets/sword.png')] bg-contain border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="armor" class="bg-[url('/src/assets/Armor.png')] bg-contain border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="ring" class="bg-[url('/src/assets/Ring.png')] bg-contain border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+          </div>
+          <div class="flex justify-center items-center">
+            <div id="slot_1" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="slot_2" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="slot_3" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+          </div>
+          <div class="flex justify-center items-center">
+            <div id="slot_4" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="slot_5" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="slot_6" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+          </div>
+          <div class="flex justify-center items-center">
+            <div id="slot_7" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="slot_8" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+            <div id="slot_9" class="border-2 border-solid border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
+          </div>
+        </div>
+        </div>
       </div>
-
-
-      <button data-modal-target="#modal" class="absolute border-2 border-white border-solid drop-shadow-lg top-4 left-4 pt-4 px-4 pb-2 bg-red-700 cursor-pointer">
-        <i class="material-icons">menu</i>
-      </button>
-      <div class="modal fixed z-10 bg-neutral-600 w-60" id="modal">
-        <div class="modal-header flex justify-between items-center py-2.5 px-2.5">
-          <div class="title font-bold text-2xl">Menu</div>
-          <button data-close-button class="close-button cursor-pointer border-none outline-none bg-none font-bold text-2xl">&times;</button>
-        </div>
-        <div class="modal-body py-2.5 px-2.5">
-          <div id="mainMenu" class="cursor-pointer">Main Menu</div>
-          <div id="logout" class="cursor-pointer">Logout</div>
-        </div>
-      </div>
-      <div id="overlay" class="fixed top-0 bottom-0 left-0 right-0 bg-black/[.5] pointer-events-none"></div>
-
-
-      <div class="flex justify-end items-center flex-col">
-        <h1>Inventory</h1>
-        <div id="usedItems" class="flex justify-center items-center mb-2">
-          <div id="weapon" class="bg-[url('/src/assets/sword.png')] bg-contain border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="armor" class="bg-[url('/src/assets/Armor.png')] bg-contain border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="ring" class="bg-[url('/src/assets/Ring.png')] bg-contain border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-        </div>
-        <div class="flex justify-center items-center">
-          <div id="slot_1" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="slot_2" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="slot_3" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-        </div>
-        <div class="flex justify-center items-center">
-          <div id="slot_4" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="slot_5" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="slot_6" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-        </div>
-        <div class="flex justify-center items-center">
-          <div id="slot_7" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="slot_8" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-          <div id="slot_9" class="border-zinc-300 h-12 w-12 bg-neutral-700 m-0.5 shadow-inner shadow-neutral-800"></div>
-        </div>
-      </div>
-
     </div>
+
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/__/firebase/6.2.4/firebase-app.js"></script>
